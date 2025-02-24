@@ -1,0 +1,45 @@
+<% layout('layouts/boilerplate') %>
+<div class="row">
+    <h1 class="text-center">Edit Business</h1>
+    <div class="col6 offset-3">
+        <form action="/businesses/<%= business._id %>?_method=PUT" method="post" novalidate class="validated-form">
+            <div class="mb-3 w-50">
+                <label class="form-label" for="title">Title</label>
+                <input class="form-control" type="text" id="title" name="business[title]" value="<%= business.title %>" required>
+                <div class="invalid-feedback">Please provide a valid business name.</div>
+            </div>
+            <div class="mb-3 w-50">
+                <label class="form-label" for="city">City</label>
+                <input class="form-control" type="text" name="business[city]" id="city" value="<%= business.city %>" required>
+                <div class="invalid-feedback">Please provide a valid city.</div>
+            </div>
+            <div class="mb-3 w-50">
+                <label class="form-label" for="state">State</label>
+                <input class="form-control" type="text" name="business[state]" id="state" value="<%= business.state %>" required>
+                <div class="invalid-feedback">Please provide a valid state.</div>
+            </div>
+            <div class="mb-3 w-50">
+                <label class="form-label" for="image">Image url</label>
+                <input class="form-control" type="url" id="image" name="business[image]" value="<%= business.image %>>" required>
+                <div class="invalid-feedback">Please provide a valid image url.</div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="price">Business price</label>
+                <div class="input-group w-50">
+                    <span class="input-group-text" id="price-label">$</span>
+                    <input class="form-control" type="number" id="price" placeholder="0.00" name="business[price]" aria-label="Username" aria-describedby="price-label" value="<%= business.price %>" required>
+                    <div class="invalid-feedback">Please provide a valid price.</div>
+                </div>
+            </div>
+            <div class="mb-3 w-50">
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" type="text" id="description" name="business[description]" required><%= business.description %></textarea>
+                <div class="invalid-feedback">Please provide a valid description.</div>
+            </div>
+            <div class="mb-3">
+            <button class="btn btn-info" type="submit">Update Business</button>
+            </div>
+            <a href="/businesses/<%= business._id %>">Back to Business</a>
+        </form>
+    </div>
+</div>

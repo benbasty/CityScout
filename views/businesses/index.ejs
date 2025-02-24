@@ -1,0 +1,24 @@
+<% layout('layouts/boilerplate') %>
+<h1>All Businesses</h1>
+<div class="mb-5">
+    <a href="/businesses/new">Add New Business</a>
+</div>
+<ul>
+    <% businesses.forEach(function(business) { %>
+        <div class="card mb-3" >
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="<%= business.image %>" alt="" class="img-fluid">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= `${business.title.charAt(0).toUpperCase() + business.title.slice(1)}` %></h5>
+                        <p class="card-text"><%= business.description %></p>
+                        <p class="card-text"><small class="text-muted"><%= `${business.city + ", " + business.state}` %></small></p>
+                        <a class="btn btn-primary" href="/businesses/<%= business._id %>">View <%= `${business.title.charAt(0).toUpperCase() + business.title.slice(1)}` %></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% }); %>
+</ul>

@@ -1,0 +1,46 @@
+const descriptors = [
+    "forest",
+    "sea",
+    "mountain",
+    "desert",
+    "lake",
+    "canyon",
+    "river",
+    "ocean",
+    "valley",
+    "waterfall",
+    "hill",
+    "plateau",
+    "marsh",
+    "jungle",
+    "cliff",
+    "bay",
+    "glacier",
+    "meadow",
+    "volcano",
+    "savanna"
+];
+const places = [
+    "villages",
+    "camps",
+    "islands",
+    "resorts",
+    "parks",
+    "towns",
+    "ranches",
+    "cabins",
+    "retreats",
+    "beaches",
+    "sanctuaries",
+    "gardens",
+    "farms",
+    "lakesides",
+    "cliffside lodges",
+    "waterfalls",
+    "caves",
+    "oases",
+    "hideaways",
+    "wilderness camps"
+];
+
+module.exports = { descriptors, places };

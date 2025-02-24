@@ -1,0 +1,57 @@
+<% layout('layouts/boilerplate') %>
+<div class="row">
+    <h1 class="text-center">New Business</h1>
+    <div class="col6 offset-3">
+        <form action="/businesses" method="post" class="validated-form" novalidate>
+            <div class="mb-3 w-50">
+                <label class="form-label" for="title">Title</label>
+                <input class="form-control" type="text" id="title" name="business[title]" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="mb-3 w-50">
+                <label class="form-label" for="city">City</label>
+                <input class="form-control" type="text" name="business[city]" id="city" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="mb-3 w-50">
+                <label class="form-label" for="state">State</label>
+                <input class="form-control" type="text" name="business[state]" id="state" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="mb-3 w-50">
+                <label class="form-label" for="image">Image url</label>
+                <input class="form-control" type="url" id="image" name="business[image]" required>
+                <div class="invalid-feedback">
+                    Please provide a valid image url.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="price">Business price</label>
+                <div class="input-group w-50">
+                    <span class="input-group-text" id="price-label">$</span>
+                    <input class="form-control" type="number" id="price" placeholder="0.00" name="business[price]" aria-label="Username" aria-describedby="price-label" required>
+                    <div class="invalid-feedback">
+                        Please provide a valid price.
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3 w-50">
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" type="text" id="description" name="business[description]" required></textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="mb-3">
+            <button class="btn btn-success" type="submit">Add Business</button>
+            </div>
+            <a href="/businesses">All Campgrounds</a>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+<% layout('layouts/boilerplate') %>
+<div class="row">
+    <div class=" col-6 offset-3">
+        <div class="alert" role="alert">
+            <p class="alert-heading text-danger fw-bold"><%= err.message %></p>
+            <p>It looks like something went wrong.</p>
+            <hr>
+            <h3 class="fw-bolder">What can you do?</h3>
+            <ul>
+                <li> <span class="fw-bold">Go Back</span>: Hit the back button and try again.</li>
+                <li> <span class="fw-bold">Visit Our Businesses page</span>: <a href="/businesses">Click Here</a> to start fresh.</li>
+                <li> <span class="fw-bold">Still stuck</span>? Reach out to us.</li>
+            </ul>
+            <p class="mb-0">In the meantime, here’s a little something to brighten your day:</p>
+            <h6 class="fw-bold text-success">"Mistakes are proof that you’re trying. Keep going!"</h6>
+            <hr>
+            <p style="font-size:xx-small;"><%= err.stack %></p>
+        </div>
+    </div>
+</div>
