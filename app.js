@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
+const session = require('express-session');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
@@ -26,6 +27,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 app.use(express.static(path.join(__dirname, 'node_modules/bootstrap/dist')));
 app.engine('ejs', ejsMate);
+
+const sessionConfig = {
+    secret: 'asecretlikenooneeverthoughtabout!',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+}
+
+app.use(session(sessionConfig));
 
 app.use('/businesses', businessRoutes);
 app.use('/businesses/:id/reviews', reviewRoutes);
