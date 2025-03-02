@@ -25,9 +25,9 @@ router.get('/new', (req, res) => {
 });
 
 router.post('/', validateBusiness, catchAsync(async (req, res) => {
-    // if (!req.body.business) throw new ExpressError('Invalid Business Data', 400);
     const business = new Business(req.body.business);
     await business.save();
+    req.flash('success', 'Successfully made a new business!');
     res.redirect(`/businesses/${business._id}`);
 }));
 
@@ -35,24 +35,34 @@ router.get('/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
     const business = await Business.findById(id).populate('reviews');
     console.log(business);
+    if(!business) {
+        req.flash('error', 'Cannot find that business!');
+        return res.redirect('/businesses')
+    }
     res.render('businesses/show', { business });
 }))
 
 router.get('/:id/edit', catchAsync(async (req, res) => {
     const { id } = req.params;
     const business = await Business.findById(id);
+    if(!business) {
+        req.flash('error', 'Cannot find that business!');
+        return res.redirect('/businesses')
+    }
     res.render('businesses/edit', { business });
 }))
 
 router.put('/:id', validateBusiness, catchAsync(async (req, res) => {
     const { id } = req.params;
     const business = await Business.findByIdAndUpdate(id, { ...req.body.business }, {new: true});
+    req.flash('success', 'Successfully made a new business!');
     res.redirect(`/businesses/${business._id}`);
 }))
 
 router.delete('/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
     await Business.findByIdAndDelete(id);
+    req.flash('success', 'Successfully deleted a business!');
     res.redirect('/businesses');
 }))
 

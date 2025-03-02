@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const session = require('express-session');
+const flash = require('connect-flash');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
@@ -40,6 +41,14 @@ const sessionConfig = {
 }
 
 app.use(session(sessionConfig));
+app.use(flash());
+
+app.use((req, res, next) => {
+    res.locals.success = req.flash('success'); //so we can access success in all templates
+    res.locals.error = req.flash('error'); //so we can access error in all templates
+    next(); //next middleware
+}
+)
 
 app.use('/businesses', businessRoutes);
 app.use('/businesses/:id/reviews', reviewRoutes);
