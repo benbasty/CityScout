@@ -54,6 +54,7 @@ passport.serializeUser(User.serializeUser()); //store user in session
 passport.deserializeUser(User.deserializeUser()); //get user out of session
 
 app.use((req, res, next) => {
+    res.locals.currentUser = req.user; //so we can access currentUser in all templates
     res.locals.success = req.flash('success'); //so we can access success in all templates
     res.locals.error = req.flash('error'); //so we can access error in all templates
     next(); //next middleware
