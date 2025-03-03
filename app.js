@@ -6,8 +6,12 @@ const flash = require('connect-flash');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
 const businessRoutes = require('./routes/businesses');
 const reviewRoutes = require('./routes/reviews');
+const usersRoutes = require('./routes/users');
+const User = require('./models/user');
 
 main().catch(err => console.log(err));
 async function main() {
@@ -40,8 +44,14 @@ const sessionConfig = {
     }
 }
 
-app.use(session(sessionConfig));
-app.use(flash());
+app.use(session(sessionConfig)); //session middleware
+app.use(flash()); //flash middleware
+
+app.use(passport.initialize()); //passport middleware
+app.use(passport.session()); //passport middleware
+passport.use(new LocalStrategy(User.authenticate())); //passport middleware
+passport.serializeUser(User.serializeUser()); //store user in session
+passport.deserializeUser(User.deserializeUser()); //get user out of session
 
 app.use((req, res, next) => {
     res.locals.success = req.flash('success'); //so we can access success in all templates
@@ -50,8 +60,10 @@ app.use((req, res, next) => {
 }
 )
 
+app.use('/', usersRoutes);
 app.use('/businesses', businessRoutes);
 app.use('/businesses/:id/reviews', reviewRoutes);
+
 
 app.get('/', (req, res) => {
     res.render('home');
