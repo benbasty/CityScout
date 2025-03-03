@@ -4,6 +4,7 @@ const Business = require('../models/businesses');
 const catchAsync = require('../utils/catchAsync');
 const ExpressError = require('../utils/ExpressError');
 const { businessSchema } = require('../schemas');
+const { isLoggedIn } = require('../middleware');
 
 const validateBusiness = (req, res, next) => {
     const {error} = businessSchema.validate(req.body);
@@ -20,11 +21,11 @@ router.get('/', catchAsync(async (req, res) => {
     res.render('businesses/index', { businesses });
 }));
 
-router.get('/new', (req, res) => {
+router.get('/new', isLoggedIn, (req, res) => {
     res.render('businesses/new');
 });
 
-router.post('/', validateBusiness, catchAsync(async (req, res) => {
+router.post('/', isLoggedIn, validateBusiness, catchAsync(async (req, res) => {
     const business = new Business(req.body.business);
     await business.save();
     req.flash('success', 'Successfully made a new business!');
@@ -42,7 +43,7 @@ router.get('/:id', catchAsync(async (req, res) => {
     res.render('businesses/show', { business });
 }))
 
-router.get('/:id/edit', catchAsync(async (req, res) => {
+router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
     const { id } = req.params;
     const business = await Business.findById(id);
     if(!business) {
@@ -52,7 +53,7 @@ router.get('/:id/edit', catchAsync(async (req, res) => {
     res.render('businesses/edit', { business });
 }))
 
-router.put('/:id', validateBusiness, catchAsync(async (req, res) => {
+router.put('/:id', isLoggedIn, validateBusiness, catchAsync(async (req, res) => {
     const { id } = req.params;
     const business = await Business.findByIdAndUpdate(id, { ...req.body.business }, {new: true});
     req.flash('success', 'Successfully made a new business!');
