@@ -15,6 +15,10 @@ const businessSchema = new Schema({
     // email: String,  // Business email
     image: String,
     price: Number,  // Average price
+    author: {
+        type: Schema.Types.ObjectId, //object id
+        ref: 'User' // from the user model
+    },
     reviews: [
         {
             type: Schema.Types.ObjectId, //object id

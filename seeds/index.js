@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const cities = require('./cities');
 const { descriptors, places } = require('./seedHelpers');
 
-const Business = require('../models/business');
+const Business = require('../models/businesses');
 
 
 
@@ -21,6 +21,7 @@ const seedDB = async () => {
         const random = Math.floor(Math.random() * cities.length);
         const price = Math.floor(Math.random() * 50) + 50
         const business = new Business({
+            author: '67c52f0cd178ef7ef49c22b0',
             city: cities[random].city,
             state: cities[random].state,
             title: `${sample(descriptors)} ${sample(places)}`,

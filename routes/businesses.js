@@ -27,6 +27,7 @@ router.get('/new', isLoggedIn, (req, res) => {
 
 router.post('/', isLoggedIn, validateBusiness, catchAsync(async (req, res) => {
     const business = new Business(req.body.business);
+    business.author = req.user._id;
     await business.save();
     req.flash('success', 'Successfully made a new business!');
     res.redirect(`/businesses/${business._id}`);
@@ -34,7 +35,7 @@ router.post('/', isLoggedIn, validateBusiness, catchAsync(async (req, res) => {
 
 router.get('/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
-    const business = await Business.findById(id).populate('reviews');
+    const business = await Business.findById(id).populate('reviews').populate('author');
     console.log(business);
     if(!business) {
         req.flash('error', 'Cannot find that business!');
