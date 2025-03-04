@@ -2,19 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Business = require('../models/businesses');
 const catchAsync = require('../utils/catchAsync');
-const ExpressError = require('../utils/ExpressError');
-const { businessSchema } = require('../schemas');
-const { isLoggedIn } = require('../middleware');
-
-const validateBusiness = (req, res, next) => {
-    const {error} = businessSchema.validate(req.body);
-    if(error) {
-        const msg = error.details.map(el => el.message).join(',');
-        throw new ExpressError(msg, 400);
-    } else {
-        next();
-    }
-}
+const { isLoggedIn, isAuthor, validateBusiness } = require('../middleware');
 
 router.get('/', catchAsync(async (req, res) => {
     const businesses = await Business.find({});
@@ -44,39 +32,25 @@ router.get('/:id', catchAsync(async (req, res) => {
     res.render('businesses/show', { business });
 }))
 
-router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
+router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
     const { id } = req.params;
     const business = await Business.findById(id);
     if(!business) {
         req.flash('error', 'Cannot find that business!');
         return res.redirect('/businesses')
     }
-    if(!business.author.equals(req.user._id)) {
-        req.flash('error', 'You do not have permission to do that!');
-        return res.redirect(`/businesses/${id}`);
-    }
     res.render('businesses/edit', { business });
 }))
 
-router.put('/:id', isLoggedIn, validateBusiness, catchAsync(async (req, res) => {
+router.put('/:id', isLoggedIn, isAuthor, validateBusiness, catchAsync(async (req, res) => {
     const { id } = req.params;
-    const business = await Business.findById;
-    if(!business.author.equals(req.user._id)) {
-        req.flash('error', 'You do not have permission to do that!');
-        return res.redirect(`/businesses/${id}`);
-    }
-    const bizness = await Business.findByIdAndUpdate(id, { ...req.body.business }, {new: true});
+    const business = await Business.findByIdAndUpdate(id, { ...req.body.business }, {new: true});
     req.flash('success', 'Successfully made a new business!');
     res.redirect(`/businesses/${business._id}`);
 }))
 
-router.delete('/:id', catchAsync(async (req, res) => {
+router.delete('/:id', isAuthor, catchAsync(async (req, res) => {
     const { id } = req.params;
-    const business = await Business.findById;
-    if(!business.author.equals(req.user._id)) {
-        req.flash('error', 'You do not have permission to do that!');
-        return res.redirect(`/businesses/${id}`);
-    }
     await Business.findByIdAndDelete(id);
     req.flash('success', 'Successfully deleted a business!');
     res.redirect('/businesses');
