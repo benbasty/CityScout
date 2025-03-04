@@ -23,7 +23,13 @@ router.post('/', isLoggedIn, validateBusiness, catchAsync(async (req, res) => {
 
 router.get('/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
-    const business = await Business.findById(id).populate('reviews').populate('author');
+    const business = await Business.findById(id)
+    .populate({
+        path: 'reviews',
+        populate: {
+            path: 'author'
+        }
+    }).populate('author');
     console.log(business);
     if(!business) {
         req.flash('error', 'Cannot find that business!');

@@ -22,41 +22,48 @@
                 </div>
             <% } %>
         </div>
-        <div class="card mb-3">
-            <div class="card-body">
-                <h2>Leave a review</h2>
-                <form action="/businesses/<%= business._id %>/reviews" class="mb-3 validated-form" method="post" novalidate>
-                    <div class="mb-3">
-                    <label class="form-label" for="rating">Rating</label>
-                    <input class="form-range" type="range" name="review[rating]" id="rating" min="1" max="5" value="1">
-                    </div>
-                    <div class="mb-3">
-                    <label class="form-label" for="body">Review</label>
-                    <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                    </div>
-                    <button class="btn btn-success" type="submit">Submit</button>
-                </form>
+        <% if (currentUser) { %>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h2>Leave a review</h2>
+                    <form action="/businesses/<%= business._id %>/reviews" class="mb-3 validated-form" method="post" novalidate>
+                        <div class="mb-3">
+                        <label class="form-label" for="rating">Rating</label>
+                        <input class="form-range" type="range" name="review[rating]" id="rating" min="1" max="5" value="1">
+                        </div>
+                        <div class="mb-3">
+                        <label class="form-label" for="body">Review</label>
+                        <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        </div>
+                        <button class="btn btn-success" type="submit">Submit</button>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <a href="/businesses">Back to all businesses</a>
+                </div>
             </div>
-            <div class="card-footer">
-                <a href="/businesses">Back to all businesses</a>
-            </div>
-        </div>
+        <% } %>
         <div class="card mb-3">
             <div class="card-body">
                 <h2>Reviews</h2>
                 <ul class="list-group">
                     <% business.reviews.forEach(review => { %>
                         <li class="list-group-item">
+                            <div>
+                                <h6>By <%= `${review.author.username.charAt(0).toUpperCase() + review.author.username.slice(1)}` %></h6>
+                            </div>
                             <div class="d-flex w-100 justify-content-between">
                                 <h6 class="mb-1">Rating: <%= review.rating %> stars</h6>
                             </div>
                             <p class="mb-1"><%= review.body %></p>
-                            <form action="/businesses/<%= business._id %>/reviews/<%=review._id %>?_method=DELETE" method="post">
-                                <button class="btn btn-danger btn-sm">Delete</button>
-                            </form>
+                            <% if (currentUser && review.author.equals(currentUser._id)) { %>
+                                <form action="/businesses/<%= business._id %>/reviews/<%=review._id %>?_method=DELETE" method="post">
+                                    <button class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            <% } %>
                         </li>
                     <% }) %>
                 </ul>
