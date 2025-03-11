@@ -3,10 +3,18 @@ const router = express.Router();
 const businesses = require('../controllers/businesses');
 const catchAsync = require('../utils/catchAsync');
 const { isLoggedIn, isAuthor, validateBusiness } = require('../middleware');
+const multer = require('multer');
+const { storage } = require('../cloudinary');
+const upload = multer({ storage });
 
 router.route('/')
     .get(catchAsync(businesses.index))
-    .post(isLoggedIn, validateBusiness, catchAsync(businesses.createBusiness));
+    // .post(isLoggedIn, validateBusiness, catchAsync(businesses.createBusiness));
+    .post(upload.array('image'), (req,res) => {
+        console.log(req.body, req.files);
+        res.send('It worked');
+    }
+);
 
 router.get('/new', isLoggedIn, businesses.renderNewForm);
 
