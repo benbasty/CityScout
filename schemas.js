@@ -3,7 +3,7 @@ module.exports.businessSchema = Joi.object({
         business: Joi.object({
             title: Joi.string().required(),
             price: Joi.number().required().min(0).greater(0),
-            image: Joi.string().uri().required(),
+            // image: Joi.string().uri().required(),
             city: Joi.string().required(),
             state: Joi.string().required(),
             description: Joi.string().required()

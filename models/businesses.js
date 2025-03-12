@@ -13,7 +13,12 @@ const businessSchema = new Schema({
     // phone: String,  // Contact number
     // website: String,  // Business website URL
     // email: String,  // Business email
-    image: String,
+    image: [
+        {
+            url: String,
+            filename: String
+        }
+    ],
     price: Number,  // Average price
     author: {
         type: Schema.Types.ObjectId, //object id

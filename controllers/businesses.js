@@ -10,9 +10,11 @@ module.exports.renderNewForm = (req, res) => {
 }
 
 module.exports.createBusiness = async (req, res) => {
+    business.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     const business = new Business(req.body.business);
     business.author = req.user._id;
     await business.save();
+    console.log(business);
     req.flash('success', 'Successfully made a new business!');
     res.redirect(`/businesses/${business._id}`);
 }
