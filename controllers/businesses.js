@@ -10,8 +10,8 @@ module.exports.renderNewForm = (req, res) => {
 }
 
 module.exports.createBusiness = async (req, res) => {
-    business.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     const business = new Business(req.body.business);
+    business.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     business.author = req.user._id;
     await business.save();
     console.log(business);

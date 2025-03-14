@@ -25,7 +25,17 @@ const seedDB = async () => {
             city: cities[random].city,
             state: cities[random].state,
             title: `${sample(descriptors)} ${sample(places)}`,
-            image: `https://picsum.photos/400?random=${Math.random()}`,
+            // images: `https://picsum.photos/400?random=${Math.random()}`,
+            images: [
+                {
+                    url: 'https://res.cloudinary.com/dq2to8sns/image/upload/v1741983809/CityScout/wjgz1ljtp7gdljsnuath.jpg',
+                    filename: 'CityScout/wjgz1ljtp7gdljsnuath'
+                },
+                {
+                    url: 'https://res.cloudinary.com/dq2to8sns/image/upload/v1741983808/CityScout/rccnckr1idrvtjserct4.jpg',
+                    filename: 'CityScout/rccnckr1idrvtjserct4'
+                }
+            ],
             description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, atque.',
             price
         });

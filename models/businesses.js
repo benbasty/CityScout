@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const ImageSchema = new Schema({
+    url: String,
+    filename: String
+});
+
 const businessSchema = new Schema({
     title: String, // Business name
     description: String,  // Short description
@@ -13,12 +18,7 @@ const businessSchema = new Schema({
     // phone: String,  // Contact number
     // website: String,  // Business website URL
     // email: String,  // Business email
-    image: [
-        {
-            url: String,
-            filename: String
-        }
-    ],
+    images: [ImageSchema],  // Array of images
     price: Number,  // Average price
     author: {
         type: Schema.Types.ObjectId, //object id

@@ -9,7 +9,7 @@ const upload = multer({ storage });
 
 router.route('/')
     .get(catchAsync(businesses.index))
-    .post(isLoggedIn, upload.array('image'), validateBusiness, catchAsync(businesses.createBusiness));
+    .post(isLoggedIn, upload.array('image'), validateBusiness,  catchAsync(businesses.createBusiness));
 
 router.get('/new', isLoggedIn, businesses.renderNewForm);
 
