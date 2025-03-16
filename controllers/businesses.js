@@ -48,6 +48,9 @@ module.exports.renderEditForm = async (req, res) => {
 module.exports.updateBusiness = async (req, res) => {
     const { id } = req.params;
     const business = await Business.findByIdAndUpdate(id, { ...req.body.business }, {new: true});
+    const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
+    business.images.push(...imgs);
+    await business.save();
     req.flash('success', 'Successfully made a new business!');
     res.redirect(`/businesses/${business._id}`);
 }

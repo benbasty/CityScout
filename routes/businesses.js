@@ -15,7 +15,7 @@ router.get('/new', isLoggedIn, businesses.renderNewForm);
 
 router.route('/:id')
     .get(catchAsync(businesses.showBusiness))
-    .put(isLoggedIn, isAuthor, validateBusiness, catchAsync(businesses.updateBusiness))
+    .put(isLoggedIn, isAuthor, upload.array('image'), validateBusiness, catchAsync(businesses.updateBusiness))
     .delete(isLoggedIn, isAuthor, catchAsync(businesses.deleteBusiness));
 
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(businesses.renderEditForm));
