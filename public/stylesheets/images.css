@@ -1,10 +1,14 @@
 #formFile {
     display: flex;
+    flex-direction: row;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 #formFile img {
-    width: 100px;
-    height: 75px;
+    width: 15%;
+    height: auto;
     margin-right: 10px;
     margin-bottom: 10px;
     border-radius: 10px;
