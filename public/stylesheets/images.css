@@ -1,20 +1,19 @@
 #formFile {
     display: flex;
-    flex-direction: row;
-    width: 100%;
     flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-#formFile img {
-    width: 15%;
+    flex-direction: row;
+    gap: 10px;
     height: auto;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    box-shadow: 0 0 8px rgba(0,0,0,0.2);
+ }
+
+ #formFile img {
+    width: 150px;
+    height: 100px;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
     opacity: 85%;
-}
+ }
 
 #formFile img:hover {
     opacity: 1;
