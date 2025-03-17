@@ -1,4 +1,5 @@
 <% layout('layouts/boilerplate') %>
+<link rel="stylesheet" href="/stylesheets/stars.css" class="rel">
 <div class="row">
     <h1 class="text-center">New Business</h1>
     <div class="col6 offset-3">
@@ -26,12 +27,11 @@
             </div>
             <div class="mb-3 w-50">
                 <label class="mb-2 form-label" for="image">Choose Images</label>
-                <div class="input-group mb-3">
-                    <input type="file" name="image" class="form-control" id="customFile" multiple>
+                <div class="input-group mb-3 form-file custom-file">
+                    <input type="file" name="image" class="form-control custom-file-input" id="image" multiple onchange="previewMultiple(event)">
+                    <label for="image" class="form-label custom-file-label"></label>
                 </div>
-                <div class="invalid-feedback">
-                    Please provide a valid image url.
-                </div>
+                <div id="formFile"></div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="price">Business price</label>
