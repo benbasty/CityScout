@@ -1,4 +1,5 @@
 const Business = require('../models/businesses');
+const { cloudinary } = require('../cloudinary');
 
 module.exports.index = async (req, res) => {
     const businesses = await Business.find({});
@@ -47,10 +48,18 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.updateBusiness = async (req, res) => {
     const { id } = req.params;
+    console.log(req.body);
     const business = await Business.findByIdAndUpdate(id, { ...req.body.business }, {new: true});
     const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
     business.images.push(...imgs);
     await business.save();
+    if(req.body.deleteImages) {
+        for(let filename of req.body.deleteImages) {
+            await cloudinary.uploader.destroy(filename);
+        }
+        await business.updateOne({$pull: {images: {filename: { $in: req.body.deleteImages}}}});
+        console.log(business);
+    }
     req.flash('success', 'Successfully made a new business!');
     res.redirect(`/businesses/${business._id}`);
 }

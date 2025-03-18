@@ -7,7 +7,8 @@ module.exports.businessSchema = Joi.object({
             city: Joi.string().required(),
             state: Joi.string().required(),
             description: Joi.string().required()
-        }).required()
+        }).required(),
+        deleteImages: Joi.array()
 })
 
 module.exports.reviewSchema = Joi.object({

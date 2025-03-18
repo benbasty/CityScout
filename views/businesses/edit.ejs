@@ -4,28 +4,35 @@
     <h1 class="text-center">Edit Business</h1>
     <div class="col6 offset-3">
         <form action="/businesses/<%= business._id %>?_method=PUT" method="post" novalidate class="validated-form" enctype="multipart/form-data">
-            <div class="mb-3 w-50">
+            <!-- Title -->
+            <div class="mb-3 w-50"> 
                 <label class="form-label" for="title">Title</label>
                 <input class="form-control" type="text" id="title" name="business[title]" value="<%= business.title %>" required>
                 <div class="invalid-feedback">Please provide a valid business name.</div>
             </div>
+
+            <!-- City -->
             <div class="mb-3 w-50">
                 <label class="form-label" for="city">City</label>
                 <input class="form-control" type="text" name="business[city]" id="city" value="<%= business.city %>" required>
                 <div class="invalid-feedback">Please provide a valid city.</div>
             </div>
+
+            <!-- State -->
             <div class="mb-3 w-50">
                 <label class="form-label" for="state">State</label>
                 <input class="form-control" type="text" name="business[state]" id="state" value="<%= business.state %>" required>
                 <div class="invalid-feedback">Please provide a valid state.</div>
             </div>
+
+            <!-- Description -->
             <div class="mb-3 w-50">
-                <label class="mb-2 form-label" for="image">Add Images</label>
-                <div class="input-group mb-3">
-                    <input type="file" name="image" class="form-control" id="image" onchange="previewMultiple(event)" multiple>
-                </div>
-                <div id="formFile" class="mb-3"></div>
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" type="text" id="description" name="business[description]" required><%= business.description %></textarea>
+                <div class="invalid-feedback">Please provide a valid description.</div>
             </div>
+
+            <!-- Price -->
             <div class="mb-3">
                 <label class="form-label" for="price">Business price</label>
                 <div class="input-group w-50">
@@ -34,11 +41,33 @@
                     <div class="invalid-feedback">Please provide a valid price.</div>
                 </div>
             </div>
+
+            <!-- Images -->
             <div class="mb-3 w-50">
-                <label class="form-label" for="description">Description</label>
-                <textarea class="form-control" type="text" id="description" name="business[description]" required><%= business.description %></textarea>
-                <div class="invalid-feedback">Please provide a valid description.</div>
+                <div class="mb-3 currentImages">
+                    <h6>Current Images</h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        <% business.images.forEach((image, index) => { %>
+                            <div class="image-container d-flex flex-column align-items-center gap-1">
+                                <img src="<%= image.url %>" alt="<%= business.title %>" class="img-thumbnail" style="width: 150px; height: 100px;">
+                                <div class="d-flex gap-1">
+                                    <input type="checkbox" id="image-<%=index%>" name="deleteImages[]" value="<%=image.filename%>">
+                                    <label for="image-<%=index%>" class="text-muted">Delete</label>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+                <div>
+                    <label class="mb-2 form-label" for="image">Add Images</label>
+                    <div class="input-group mb-3">
+                        <input type="file" name="image" class="form-control" id="image" onchange="previewMultiple(event)" multiple>
+                    </div>
+                    <div id="formFile" class="mb-3"></div>
+                </div>
             </div>
+
+            <!-- Submit Button -->
             <div class="mb-3">
             <button class="btn btn-info" type="submit">Update Business</button>
             </div>
