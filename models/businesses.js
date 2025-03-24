@@ -6,6 +6,14 @@ const ImageSchema = new Schema({
     filename: String
 });
 
+ImageSchema.virtual('cardImage').get(function () {
+    return this.url.replace('/upload', '/upload/ar_4:3,c_crop')
+})
+
+ImageSchema.virtual('indexImage').get(function () {
+    return this.url.replace('/upload', '/upload/w_350,h_250,c_fill')
+})
+
 const businessSchema = new Schema({
     title: String, // Business name
     description: String,  // Short description
