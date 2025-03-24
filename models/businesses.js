@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Review = require('./reviews');
 
 const ImageSchema = new Schema({
     url: String,
@@ -17,16 +18,20 @@ ImageSchema.virtual('indexImage').get(function () {
 const businessSchema = new Schema({
     title: String, // Business name
     description: String,  // Short description
-    // category: String,  // E.g., Restaurant, Gym, Salon
-    // address: String,  // Street address
     city: String,  // City name
     state: String,  // State/Province
-    // zipCode: String,  // Postal code
-    // country: String,  // Country
-    // phone: String,  // Contact number
-    // website: String,  // Business website URL
-    // email: String,  // Business email
     images: [ImageSchema],  // Array of images
+    geometry: {  // GeoJSON
+        type: {
+            type: String,
+            enum: ['Point'],
+            required: true
+        },
+        coordinates: {
+            type: [Number],
+            required: true
+        }
+    },
     price: Number,  // Average price
     author: {
         type: Schema.Types.ObjectId, //object id
@@ -38,6 +43,13 @@ const businessSchema = new Schema({
             ref: 'Review' // from the review model
         }
     ]
+    // category: String,  // E.g., Restaurant, Gym, Salon
+    // address: String,  // Street address
+    // zipCode: String,  // Postal code
+    // country: String,  // Country
+    // phone: String,  // Contact number
+    // website: String,  // Business website URL
+    // email: String,  // Business email
 })
 
 businessSchema.post('findOneAndDelete', async function (doc) {

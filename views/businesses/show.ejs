@@ -4,9 +4,6 @@
 <div class="row">
     <div class="col-6 offset-3">
         <div class="card mb-3 mt-3">
-            <!-- <% for(let img of business.images) { %>
-                <img src="<%= img.url %>" class="card-img-top" alt="">
-            <% } %> -->
             <div id="carouselCityScout" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <% business.images.forEach((img, i) => { %>
@@ -45,6 +42,7 @@
                 </div>
             <% } %>
         </div>
+        <div id="map" class="mb-3" style="height: 300px; width: 100%;"></div>
         <% if (currentUser) { %>
             <div class="card mb-3">
                 <div class="card-body">
@@ -110,7 +108,9 @@
     </div>
 </div>
 
+<script>
+    const maptilerApiKey = '<%- process.env.MAPTILER_API_KEY %>';
+    const business = <%- JSON.stringify(business) %>;
+</script>
 
-
-
-
+<script src="/javascripts/showPageMap.js"></script>
