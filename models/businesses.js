@@ -62,5 +62,13 @@ businessSchema.post('findOneAndDelete', async function (doc) {
     }
 })
 
+businessSchema.virtual('properties.popUpMarkup').get(function () {
+    return `
+    <strong><a href="/businesses/${this._id}">${this.title}</a></strong>
+    <p>${this.description.substring(0, 20)}...</p>`
+});
+businessSchema.set('toObject', { virtuals: true });
+businessSchema.set('toJSON', { virtuals: true });
+
 module.exports = mongoose.model('Business', businessSchema);
 
