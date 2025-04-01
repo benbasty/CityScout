@@ -1,2 +1,40 @@
-<% layout('layouts/boilerplate') %>
-    Welcome to CityScout Home!
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/home.css">
+    <title>CityScout</title>
+</head>
+<body class="d-flex text-center text-white bg-dark">
+    <div class="cover-container d-flex w-100 p-3 mx-auto flex-column">
+        <header class="mb-auto">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="mb-0">CityScout</h3>
+                <nav class="nav nav-masthead">
+                    <a href="#" class="nav-link active text-white" aria-current="page">Home</a>
+                    <a href="/businesses" class="nav-link text-white">Businesses</a>
+                    <% if (!currentUser) { %>
+                        <a href="/login" class="nav-link text-white">Login</a>
+                        <a href="/register" class="nav-link text-white">Register</a>
+                    <% } else { %>
+                        <a href="/logouut" class="nav-link text-white">Logout</a>
+                    <% } %>
+                </nav>
+            </div>
+        </header>
+        <main class="px-3">
+            <h1>CityScout</h1>
+            <p class="lead">Lorem ipsum, dolor sit amet consectetur adipisicing elit. <br> Fugiat alias aliquid nam impedit voluptate quisquam suscipit blanditiis. <br> Ad repudiandae ipsam, nesciunt atque architecto nemo obcaecati non in nobis culpa numquam.</p>
+            <a href="/businesses" class="btn btn-lg btn-secondary fw-bold btn-light">View Businesses</a>
+        </main>
+        <footer class="mt-auto text-white">
+            <p>&copy;2025 CityScout</p>
+        </footer>
+    </div>
+
+
+    <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
