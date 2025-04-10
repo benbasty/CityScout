@@ -15,6 +15,7 @@ const businessRoutes = require('./routes/businesses');
 const reviewRoutes = require('./routes/reviews');
 const usersRoutes = require('./routes/users');
 const User = require('./models/user');
+const mongoSanitize = require('express-mongo-sanitize');
 
 main().catch(err => console.log(err));
 async function main() {
@@ -31,6 +32,7 @@ app.engine('ejs', ejsMate);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride('_method'));
+app.use(mongoSanitize({ replaceWith: '_' })); //sanitizes user input to prevent NoSQL injection attacks
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 app.use(express.static(path.join(__dirname, 'node_modules/bootstrap/dist')));
