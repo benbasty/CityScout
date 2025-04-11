@@ -1,6 +1,7 @@
-if(process.env.NODE_ENV !== 'production') {
-    require('dotenv').config();
-}
+// if(process.env.NODE_ENV !== 'production') {
+//     require('dotenv').config();
+// }
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -16,6 +17,7 @@ const reviewRoutes = require('./routes/reviews');
 const usersRoutes = require('./routes/users');
 const User = require('./models/user');
 const mongoSanitize = require('express-mongo-sanitize');
+const helmet = require('helmet');
 
 main().catch(err => console.log(err));
 async function main() {
@@ -39,18 +41,68 @@ app.use(express.static(path.join(__dirname, 'node_modules/bootstrap/dist')));
 app.engine('ejs', ejsMate);
 
 const sessionConfig = {
+    name: 'businessSession',
     secret: 'asecretlikenooneeverthoughtabout!',
     resave: false,
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-        maxAge: 1000 * 60 * 60 * 24 * 7
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+        secure: true
     }
 }
 
 app.use(session(sessionConfig)); //session middleware
 app.use(flash()); //flash middleware
+app.use(helmet());
+
+  const scriptSrcUrls = [
+    "https://stackpath.bootstrapcdn.com/",
+    "https://kit.fontawesome.com/",
+    "https://cdnjs.cloudflare.com/",
+    "https://cdn.jsdelivr.net",
+    "https://cdn.maptiler.com/",
+];
+const styleSrcUrls = [
+    "https://kit-free.fontawesome.com/",
+    "https://stackpath.bootstrapcdn.com/",
+    "https://fonts.googleapis.com/",
+    "https://use.fontawesome.com/",
+    "https://cdn.jsdelivr.net",
+    "https://cdn.maptiler.com/"
+];
+const connectSrcUrls = [
+    "https://api.maptiler.com/",
+];
+const imgSrcUrls = [
+    "https://res.cloudinary.com/dq2to8sns/",
+    "https://images.unsplash.com"
+  ];
+const fontSrcUrls = [];
+
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            defaultSrc: [],
+            connectSrc: ["'self'", ...connectSrcUrls],
+            scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+            styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+            workerSrc: ["'self'", "blob:"],
+            childSrc: ["blob:"],
+            objectSrc: [],
+            imgSrc: [
+                "'self'",
+                "blob:",
+                "data:",
+                "https://api.maptiler.com/",
+                ...imgSrcUrls
+            ],
+            fontSrc: ["'self'", ...fontSrcUrls],
+        },
+    })
+);
+
 
 app.use(passport.initialize()); //passport middleware
 app.use(passport.session()); //passport middleware

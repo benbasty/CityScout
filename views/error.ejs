@@ -14,7 +14,9 @@
             <p class="mb-0">In the meantime, here’s a little something to brighten your day:</p>
             <h6 class="fw-bold text-success">"Mistakes are proof that you’re trying. Keep going!"</h6>
             <hr>
-            <p style="font-size:xx-small;"><%= err.stack %></p>
+            <% if(process.env.NODE_ENV !== 'production') { %>
+                <p style="font-size:xx-small;"><%= err.stack %></p>
+            <% } %>
         </div>
     </div>
 </div>
