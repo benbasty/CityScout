@@ -18,8 +18,17 @@ const usersRoutes = require('./routes/users');
 const User = require('./models/user');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
+const dbUrl = process.env.DB_URL;
+// mongoose.connect(dbUrl)
+//     .then(() => {
+//         console.log('MongoDB Connected');
+//     })
+//     .catch(err => {
+//         console.log('MongoDB Connection Error: ', err);
+//     });
 
 main().catch(err => console.log(err));
+//'mongodb://127.0.0.1:27017/business'
 async function main() {
     await mongoose.connect('mongodb://127.0.0.1:27017/business');
 }
