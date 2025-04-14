@@ -18,7 +18,11 @@ const usersRoutes = require('./routes/users');
 const User = require('./models/user');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
-const dbUrl = process.env.DB_URL;
+// const dbUrl = process.env.DB_URL;
+const dbUrl = 'mongodb://127.0.0.1:27017/business';
+const MongoStore = require('connect-mongo');
+
+
 // mongoose.connect(dbUrl)
 //     .then(() => {
 //         console.log('MongoDB Connected');
@@ -49,7 +53,18 @@ app.use(express.static(path.join(__dirname, 'node_modules')));
 app.use(express.static(path.join(__dirname, 'node_modules/bootstrap/dist')));
 app.engine('ejs', ejsMate);
 
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    secret: 'thisshouldbeabettersecret',
+    touchAfter: 24 * 60 * 60 // 24 hours in seconds
+  });
+store.on('error', function(e) {
+    console.log("SESSION STORE ERROR", e);
+});
+
+
 const sessionConfig = {
+    store,
     name: 'businessSession',
     secret: 'asecretlikenooneeverthoughtabout!',
     resave: false,
